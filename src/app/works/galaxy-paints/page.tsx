@@ -1,0 +1,65 @@
+import dynamic from 'next/dynamic';
+import { Suspense } from 'react';
+
+// Dynamically import components with loading fallbacks
+const GalaxyPaintsBanner = dynamic(() => import('@/components/work-detail/galaxyPaintsBanner'), {
+  loading: () => <div className="h-[60vh] animate-pulse bg-gray-200" />
+});
+
+const GalaxyPaintsCasestudy = dynamic(() => import('@/components/work-detail/galaxyPaintsCasestudy'), {
+  loading: () => <div className="h-[400px] animate-pulse bg-gray-200" />
+});
+
+const GalaxyPaintsGallery = dynamic(() => import('@/components/work-detail/galaxyPaintsGallery'), {
+  loading: () => <div className="h-[400px] animate-pulse bg-gray-200" />
+});
+
+const ResultSection = dynamic(() => import('@/components/webResultSection'), {
+  loading: () => <div className="h-[300px] animate-pulse bg-gray-200" />
+});
+
+const Testimonial = dynamic(() => import('@/components/webTestimonial'), {
+  loading: () => <div className="h-[300px] animate-pulse bg-gray-200" />
+});
+
+const InnerRelatedWorks = dynamic(() => import('@/components/webRelatedWorks'), {
+  loading: () => <div className="h-[400px] animate-pulse bg-gray-200" />
+});
+
+const BottomBar = dynamic(() => import('@/components/bottomBar'), {
+  loading: () => <div className="h-[100px] animate-pulse bg-gray-200" />
+});
+
+export default function GalaxyPaints() {
+  return (
+    <>
+      <Suspense fallback={<div className="h-[60vh] animate-pulse bg-gray-200" />}>
+        <GalaxyPaintsBanner />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[400px] animate-pulse bg-gray-200" />}>
+        <GalaxyPaintsCasestudy />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[400px] animate-pulse bg-gray-200" />}>
+        <GalaxyPaintsGallery />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[300px] animate-pulse bg-gray-200" />}>
+        <ResultSection />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[300px] animate-pulse bg-gray-200" />}>
+        <Testimonial />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[400px] animate-pulse bg-gray-200" />}>
+        <InnerRelatedWorks />
+      </Suspense>
+
+      <Suspense fallback={<div className="h-[100px] animate-pulse bg-gray-200" />}>
+        <BottomBar />
+      </Suspense>
+    </>
+  );
+} 
