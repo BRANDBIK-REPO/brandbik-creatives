@@ -3,6 +3,7 @@ import "./globals.css";
 import { Poppins } from 'next/font/google';
 import { IBM_Plex_Sans_Arabic } from 'next/font/google';
 import LayoutShell from "@/components/LayoutShell";
+import ReduxProvider from "@/redux/Provider";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import FontProvider from "@/components/FontProvider";
 // Load Poppins font with required weights
@@ -70,7 +71,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             poppinsClass={poppins.className} 
             ibmPlexSansArabicClass={ibmPlexSansArabic.className}
           >
-            <LayoutShell>{children}</LayoutShell>
+            {/* ReduxProvider wraps LayoutShell to provide Redux store */}
+            <ReduxProvider>
+              <LayoutShell>{children}</LayoutShell>
+            </ReduxProvider>
           </FontProvider>
         </LanguageProvider>
       </body>

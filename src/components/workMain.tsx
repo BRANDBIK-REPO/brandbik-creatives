@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import { useState, useEffect } from "react"
+import { useAppDispatch } from "@/redux/hooks";
+import { fetchProjects, fetchProjectById } from "@/redux/projectsSlice";
+ 
 import Image from "next/image"
 import { useRouter } from 'next/navigation';
 import { useLanguage } from "@/contexts/LanguageContext"
@@ -19,6 +23,9 @@ interface Project {
 }
 
 export default function WorkMain() {
+  const dispatch = useAppDispatch();
+  // Access Redux state if needed:
+  // const { list, loading, error } = useAppSelector((state: RootState) => state.projects);
   const router = useRouter();
   const { t, language } = useLanguage();
   // State to track active category
@@ -38,6 +45,14 @@ export default function WorkMain() {
       contentContainer.setAttribute('dir', language === 'ar' ? 'rtl' : 'ltr');
     }
   }, [language]);
+
+  // Fetch projects from API on mount
+  useEffect(() => {
+    dispatch(fetchProjects()).then((res) => {
+      // Log the API response
+      console.log('API Projects Response:', (res as any).payload);
+    });
+  }, [dispatch]);
 
   useEffect(() => {
     // Simulate loading
@@ -112,7 +127,17 @@ export default function WorkMain() {
     })
   }
 
-  const handleProjectClick = (projectTitle: string, projectCategory?: Category) => {
+  // Fetch project details by id and log response
+  const handleProjectDetails = (id: string) => {
+    dispatch(fetchProjectById(id)).then((res) => {
+      console.log('API Project Details Response:', (res as any).payload);
+    });
+  };
+
+  const handleProjectClick = (projectTitle: string, projectCategory?: Category, projectId?: string | number) => {
+    if (projectId) {
+      handleProjectDetails(String(projectId));
+    }
     
     // Map project titles to their corresponding folder names
     const routeMap: { [key: string]: string } = {
@@ -581,12 +606,15 @@ export default function WorkMain() {
             </div>
           ))
         ) : (
-          paginatedProjects.map((project) => (
-            <div 
-              key={project.id} 
-              className="project-card sm:mb-4 border border-gray-200 cursor-pointer"
-              onClick={() => handleProjectClick(project.title, project.category)}
-            >
+          paginatedProjects.map((project) => {
+            // Try to get _id if present (from API), else fallback to id (local data)
+            const projectId = (project as { _id?: string })._id || project.id;
+            return (
+              <div 
+                key={project.id}
+                className="project-card sm:mb-4 border border-gray-200 cursor-pointer"
+                onClick={() => handleProjectClick(project.title, project.category, projectId)}
+              >
               <div 
                 className="mb-3 md:mb-4 overflow-hidden relative"
                 onMouseMove={handleMouseMove}
@@ -623,7 +651,7 @@ export default function WorkMain() {
                 <p className={`text-xs md:text-sm text-gray-600`}>{project.description}</p>
               </div>
             </div>
-          ))
+          )})
         )}
       </div>
 
