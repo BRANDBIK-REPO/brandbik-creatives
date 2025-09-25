@@ -22,7 +22,7 @@ const initialState: ProjectsState = {
 
 export const fetchProjects = createAsyncThunk('projects/fetchProjects', async () => {
   const response = await axios.get('https://api.brandbik.com/admin/getProjects');
-  return response.data;
+  return response.data.data;
 });
 
 export const fetchProjectById = createAsyncThunk('projects/fetchProjectById', async (id: string) => {

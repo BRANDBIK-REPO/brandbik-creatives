@@ -5,7 +5,7 @@ import { useState, useEffect } from "react"
 import { useAppDispatch } from "@/redux/hooks";
 import { fetchProjects, fetchProjectById } from "@/redux/projectsSlice";
  
-import Image from "next/image"
+ 
 import { useRouter } from 'next/navigation';
 import { useLanguage } from "@/contexts/LanguageContext"
 import { useRef } from "react";
@@ -195,332 +195,25 @@ export default function WorkMain() {
     router.push(route);
   };
 
-  // Sample project data for all categories
-  const allProjects: Project[] = [
-    // Website Development Projects
-    {
-      id: 1,
-      title: t('work.projects.cyberseed.title'),
-      description: t('work.projects.cyberseed.description'),
-      image: "/images/Web-development/cyberceed-background.jpg",
-      category: "website",
-    },
-    {
-      id: 2,
-      title: t('work.projects.scitor.title'),
-      description: t('work.projects.scitor.description'),
-      image: "/images/Web-development/scitor-background.jpg",
-      category: "website",
-    },
-    {
-      id: 3,
-      title: t('work.projects.zayior.title'),
-      description: t('work.projects.zayior.description'),
-      image: "/images/Web-development/zayior-background.jpg",
-      category: "website",
-    },
-    {
-      id: 4,
-      title: t('work.projects.teamae.title'),
-      description: t('work.projects.teamae.description'),
-      image: "/images/Web-development/teamae-bg.jpg",
-      category: "website",
-    },
-     {
-      id: 5,
-      title: t('work.projects.aesschool.title'),
-      description: t('work.projects.aesschool.description'),
-      image: "/images/Web-development/aes-school.jpg",
-      category: "website",
-    },
-    {
-      id: 6,
-      title: t('work.projects.gamegate.title'),
-      description: t('work.projects.gamegate.description'),
-      image: "/images/Web-development/gamegate-3.jpg",
-      category: "website",
-    },
-     {
-      id: 7,
-      title: t('work.projects.khbrahweb.title'),
-      description: t('work.projects.khbrahweb.description'),
-      image: "/images/Web-development/khbrah-1.jpg",
-      category: "website",
-    },
-     {
-      id: 8,
-      title: t('work.projects.tenderoutes.title'),
-      description: t('work.projects.tenderoutes.description'),
-      image: "/images/Web-development/tenderoutes.jpg",
-      category: "website",
-    },
-    {
-      id: 9,
-      title: t('work.projects.galaxy.title'),
-      description: t('work.projects.galaxy.description'),
-      image: "/images/Web-development/galaxy-5.jpg",
-      category: "website",
-    },
-   
-    {
-      id: 10,
-      title: t('work.projects.genchi.title'),
-      description: t('work.projects.genchi.description'),
-      image: "/images/Web-development/genchi-3.png",
-      category: "website",
-    },
- 
-     {
-      id: 11,
-      title: t('work.projects.mikara.title'),
-      description: t('work.projects.mikara.description'),
-      image: "/images/Web-development/MIKARA-.jpg",
-      category: "website",
-    },
- 
-    {
-      id: 12,
-      title: t('work.projects.algharafa.title'),
-      description: t('work.projects.algharafa.description'),
-      image: "/images/Web-development/algh-4.jpg",
-      category: "website",
-    },
-    {
-      id: 13,
-      title: t('work.projects.aboglumbo.title'),
-      description: t('work.projects.aboglumbo.description'),
-      image: "/images/Web-development/abu-glumbo-banner.jpg",
-      category: "website",
-    },
-    {
-      id: 14,
-      title: t('work.projects.shetalksweb.title'),
-      description: t('work.projects.shetalksweb.description'),
-      image: "/images/Web-development/shetalks-banner.jpg",
-      category: "website",
-    },
-     {
-      id: 15,
-      title: t('work.projects.usraweb.title'),
-      description: t('work.projects.usraweb.description'),
-      image: "/images/Web-development/usraweb-1.jpg",
-      category: "website",
-    },
+  // Projects state from API
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
 
-
-    // App Development Projects
-    {
-      id: 1,
-      title: t('work.projects.aboglumbo.title'),
-      description: t('work.projects.aboglumbo.description'),
-      image: "/images/app-development/abo-glumbo-banner.jpg",
-      category: "app",
-    },
-    {
-      id: 2,
-      title: t('work.projects.handyman.title'),
-      description: t('work.projects.handyman.description'),
-      image: "/images/app-development/handyman-banner.jpg",
-      category: "app",
-    },
-    {
-      id: 3,
-      title: t('work.projects.mrcars.title'),
-      description: t('work.projects.mrcars.description'),
-      image: "/images/app-development/Mr-Cars-2.jpg",
-      category: "app",
-    },
-    {
-      id: 4,
-      title: t('work.projects.saver.title'),
-      description: t('work.projects.saver.description'),
-      image: "/images/Web-development/saver-2.jpg",
-      category: "app",
-    },
-    {
-      id: 5,
-      title: t('work.projects.shetalks.title'),
-      description: t('work.projects.shetalks.description'),
-      image: "/images/app-development/shetalks-extended.jpg",
-      category: "app",
-    },
-    {
-      id: 6,
-      title: t('work.projects.khbrah.title'),
-      description: t('work.projects.khbrah.description'),
-      image: "/images/app-development/khbra-one.jpg",
-      category: "app",
-    },
-      {
-      id: 7,
-      title: t('work.projects.usrapp.title'),
-      description: t('work.projects.usrapp.description'),
-      image: "/images/Web-development/usra-1.jpg",
-      category: "app",
-    },
-   
-
-    // Branding Projects
-    {
-      id: 201,
-      title: t('work.projects.silhouettes.title'),
-      description: t('work.projects.silhouettes.description'),
-      image: "/images/Branding/sihouettes.png",
-      category: "branding",
-    },
-    {
-      id: 202,
-      title: t('work.projects.biriyani.title'),
-      description: t('work.projects.biriyani.description'),
-      image: "/images/Branding/bandb.png",
-      category: "branding",
-    },
-    {
-      id: 203,
-      title: t('work.projects.teamae.branding.title'),
-      description: t('work.projects.teamae.branding.description'),
-      image: "/team-ae/four.png",
-      category: "branding",
-    },
-    {
-      id: 204,
-      title: t('work.projects.matrix.title'),
-      description: t('work.projects.matrix.description'),
-      image: "/images/Branding/matrix-microns.png",
-      category: "branding",
-    },
-    {
-      id: 205,
-      title: t('work.projects.cyberseed.branding.title'),
-      description: t('work.projects.cyberseed.branding.description'),
-      image: "/images/Branding/cyberceed.jpg",
-      category: "branding",
-    },
-    {
-      id: 206,
-      title: t('work.projects.financeva.title'),
-      description: t('work.projects.financeva.description'),
-      image: "/images/Branding/FINANCEVA.jpg",
-      category: "branding",
-    },
-    {
-      id: 207,
-      title: t('work.projects.indoarab.title'),
-      description: t('work.projects.indoarab.description'),
-      image: "/images/Branding/INDO.jpg",
-      category: "branding",
-    },
-    {
-      id: 208,
-      title: t('work.projects.mpbg.title'),
-      description: t('work.projects.mpbg.description'),
-      image: "/images/Branding/MPB.jpg",
-      category: "branding",
-    },
-    {
-      id: 209,
-      title: t('work.projects.shetalks.title'),
-      description: t('work.projects.shetalks.description'),
-      image: "/images/Branding/SHETALKS.jpg",
-      category: "branding",
-    },
-    // {
-    //   id: 210,
-    //   title: t('work.projects.aes.branding.title'),
-    //   description: t('work.projects.aes.branding.description'),
-    //   image: "/images/Branding/aes-school.png",
-    //   category: "branding",
-    // },
-    {
-      id: 211,
-      title: t('work.projects.manever.title'),
-      description: t('work.projects.manever.description'),
-      image: "/manaver/one.png",
-      category: "branding",
-    },
-    {
-      id: 212,
-      title: t('work.projects.moonwhite.title'),
-      description: t('work.projects.moonwhite.description'),
-      image: "/moonwhite/five.png",
-      category: "branding",
-    },
-    
-
-    
-
-    // Social Media Projects
-    {
-      id: 401,
-      title: t('work.projects.aes.digital.title'),
-      description: t('work.projects.aes.digital.description'),
-      image: "/images/Digital-Marketing/aes-min.jpg",
-      category: "social",
-    },
-    {
-      id: 402,
-      title: t('work.projects.chefpillai.title'),
-      description: t('work.projects.chefpillai.description'),
-      image: "/images/Digital-Marketing/chef-pillai.jpg",
-      category: "social",
-    },
-    {
-      id: 403,
-      title: t('work.projects.dubai.title'),
-      description: t('work.projects.dubai.description'),
-      image: "/images/Digital-Marketing/dubai-min.jpg",
-      category: "social",
-    },
-    {
-      id: 404,
-      title: t('work.projects.galaxon.title'),
-      description: t('work.projects.galaxon.description'),
-      image: "/images/Digital-Marketing/galaxy-min.jpg",
-      category: "social",
-    },
-    {
-      id: 405,
-      title: t('work.projects.greensdoor.title'),
-      description: t('work.projects.greensdoor.description'),
-      image: "/images/Digital-Marketing/greensdoor-min.jpg",
-      category: "social",
-    },
-    {
-      id: 406,
-      title: t('work.projects.indoarab.title'),
-      description: t('work.projects.indoarab.description'),
-      image: "/images/Digital-Marketing/indo-min.jpg",
-      category: "social",
-    },
-     {
-      id: 407,
-      title: t('work.projects.tenderoutes.title'),
-      description: t('work.projects.tenderoutes.description'),
-      image: "/images/Digital-Marketing/tenderoutes-min.jpg",
-      category: "social",
-    },
-    {
-      id: 408,
-      title: t('work.projects.ventes.title'),
-      description: t('work.projects.ventes.description'),
-      image: "/images/Digital-Marketing/ventes-min.jpg",
-      category: "social",
-    },
-    {
-      id: 409,
-      title: t('work.projects.weonlywheels.title'),
-      description: t('work.projects.weonlywheels.description'),
-      image: "/images/Digital-Marketing/we-only-wheels.jpg",
-      category: "social",
-    },
-      {
-      id: 410,
-      title: t('work.projects.babaganoush.title'),
-      description: t('work.projects.babaganoush.description'),
-      image: "/images/Digital-Marketing/baba-ganoush.jpg",
-      category: "social",
-    },
-  ]
+  // Fetch projects from API on mount
+  useEffect(() => {
+    dispatch(fetchProjects()).then((res) => {
+      const apiProjects = (res as any).payload || [];
+      // Map API response to Project[]
+      const mappedProjects: Project[] = apiProjects.map((proj: any) => ({
+        id: proj._id || proj.id,
+        title: language === 'ar' ? proj.projectNameAr || proj.projectName : proj.projectName,
+        description: language === 'ar' ? proj.scopDiscriptionAr || proj.scopDiscription : proj.scopDiscription,
+        image: proj.backGroundImage || proj.mainImg,
+        category: proj.service?.toLowerCase() || 'website', // fallback to website if not present
+      }));
+      setAllProjects(mappedProjects);
+      console.log('API Projects Response:', apiProjects);
+    });
+  }, [dispatch, language]);
 
   // Filter projects by active category
   const filteredProjects = activeCategory === 'all'
@@ -621,15 +314,14 @@ export default function WorkMain() {
                 onMouseEnter={() => setHoveredProjectId(project.id)}
                 onMouseLeave={() => setHoveredProjectId(null)}
               >
-                <Image
+                <img
                   src={project.image || "/placeholder.svg"}
                   alt={project.title}
                   width={400}
                   height={250}
                   className="w-full h-[200px] md:h-[250px] hover:scale-105 transition-transform duration-300 object-cover"
                   loading="lazy"
-               
-                  quality={60}
+                  style={{ objectFit: 'cover' }}
                 />
                 {hoveredProjectId === project.id && (
                   <div 
